@@ -12,6 +12,7 @@ class CarTomlValidator: public AbstractValidator<std::string> {
 
         void validate(std::string entity) override;
 
+		~CarTomlValidator() {};
 };
 
 #endif

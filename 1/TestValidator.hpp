@@ -12,6 +12,8 @@ class TestValidator: public AbstractValidator<std::string> {
 
         void validate(std::string entity) override;
 
+        ~TestValidator() {}
+
 };
 
 #endif

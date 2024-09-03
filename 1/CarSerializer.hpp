@@ -30,6 +30,8 @@ class CarSerializer : public AbstractSerializer<Car> {
 
         CarSerializer();
 
+        ~CarSerializer();
+
 };
 
 #endif

@@ -9,6 +9,8 @@ class AbstractValidator {
 
         virtual void validate(T entity) = 0;
 
+        virtual ~AbstractValidator() {}
+
 };
 
 #endif

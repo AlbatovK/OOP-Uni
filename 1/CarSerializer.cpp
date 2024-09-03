@@ -33,3 +33,7 @@ CarSerializer::CarSerializer() {
 CarSerializer::CarSerializer(AbstractValidator<std::string> * validator) {
     this -> validator = validator;
 }
+
+CarSerializer::~CarSerializer() {
+	delete this -> validator;
+}
