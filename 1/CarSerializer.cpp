@@ -15,6 +15,10 @@ Car CarSerializer::deserialize(std::string input) {
 }
 
 Car CarSerializer::deserialize(const char * input, size_t size) {
+    this -> validator -> validate(
+        std::string(input, size + 1)
+    );
+    
     return Car("", "", 2.0);
 }
 
