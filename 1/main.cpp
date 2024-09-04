@@ -37,8 +37,9 @@ int main() {
     try {
     	std::string filename;
     	getline(std::cin, filename);
+    	std::cout << "Successfully deserialized!" << std::endl;
         Car c = s.deserialize(readFile(filename));
-        std::cout << c.getMileage() << std::endl;
+        std::cout << "Serializing back: " << std::endl;
         std::cout << s.serialize(c, "name") << std::endl; 
     } catch (ValidationException e) {
         std::cout << "ValidationException:\n" << e.getMessage() << std::endl;
