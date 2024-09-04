@@ -10,6 +10,12 @@
 
 #include <string>
 
+/**
+ * \authors Konstantin Albatov
+ * \date 04.09.2024 4:19
+ * \version 1.0
+ * Conrete implementation of AbstractSerializer aimed at serialization/deserialization of Car objects
+ */
 class CarSerializer : public AbstractSerializer<Car> {
 
     private:
@@ -18,13 +24,13 @@ class CarSerializer : public AbstractSerializer<Car> {
 
     public:
 
-        std::string serialize(Car, std::string structName) override;
+        std::string serialize(const Car&, const std::string& structName) override;
         
         Car deserialize(const char *) override;
 
         Car deserialize(const char *, size_t) override;
         
-        Car deserialize(std::string) override;
+        Car deserialize(const std::string&) override;
 
         CarSerializer(AbstractValidator<std::string> * validator);
 

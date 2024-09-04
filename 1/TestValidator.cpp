@@ -4,6 +4,6 @@
 
 #include <string>
 
-void TestValidator::validate(std::string entity) {
+void TestValidator::validate(const std::string& entity) {
     std::cout << "Test validator!" << std::endl;
 }

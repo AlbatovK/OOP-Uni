@@ -10,9 +10,9 @@
 
 #include <regex>
 
-void CarTomlValidator::validate(std::string entity) {
+void CarTomlValidator::validate(const std::string& entity) {
 
-    const std::regex structureRegex(".+\nbrand = \".+\"\nowner = \".+\"\nmileage = .+");
+    const std::regex structureRegex("\n*.+\nbrand = \".+\"\nowner = \".+\"\nmileage = .+\n*");
     
     if (!std::regex_match(entity.data(), structureRegex)) {
         throw ValidationException("Car Structure is incorrect.", "Car Structure");
@@ -24,7 +24,7 @@ void CarTomlValidator::validate(std::string entity) {
           throw ValidationException("Brand is only a-z, A-Z and ' ' + '-'.", "Brand");
     }
 
-    if (m.size() == 0 || m[0].length() > strlen("brand = ") + 3 + 2) {
+    if (m.size() == 0 || m[0].length() > strlen("brand = ") + 16 + 2) {
         throw ValidationException("Brand must be no longer than 16 chars.", "Brand");
     }
 
@@ -33,7 +33,7 @@ void CarTomlValidator::validate(std::string entity) {
           throw ValidationException("Owner is malformed.", "Owner");
     }
 
-    const std::regex findMileageRegex("mileage = \\d..\\d");
+    const std::regex findMileageRegex("mileage = \\d*.\\d*");
     if (!std::regex_search(entity, m, findMileageRegex)) {
           throw ValidationException("Mileage must be a double.", "Mileage");
     }

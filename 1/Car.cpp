@@ -8,15 +8,15 @@
 
 #include "Car.hpp"
 
-std::string Car::getBrand(void) {
+std::string Car::getBrand(void) const {
     return this -> brand;
 }
 
-std::string Car::getOwner(void) {
+std::string Car::getOwner(void) const {
     return this -> owner;
 }
 
-double Car::getMileage(void) {
+double Car::getMileage(void) const {
     return mileage;
 }
 
