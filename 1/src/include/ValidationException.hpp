@@ -11,20 +11,19 @@
  * Exception class used to indicate a problem in serialized object structure or format, making it impossible to convert to original object 
  * Contains message with brief description of an error and an optional name of the field, that caused a problem
  */
-class ValidationException {
+class ValidationException final : public std::exception {
+    std::string message;
 
-    private:
-        
-        std::string message;
-        
-        std::string fieldName;
+    std::string fieldName;
 
-    public:
+public:
+    ValidationException(const char *message, const char *fieldName);
 
-        ValidationException(const char * message, const char * fieldName);
+    [[nodiscard]] const char *what() const noexcept override {
+        return message.c_str();
+    }
 
-        std::string getMessage();
-
+    [[nodiscard]] std::string getMessage() const;
 };
 
 #endif

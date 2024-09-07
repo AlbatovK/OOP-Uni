@@ -11,18 +11,17 @@
  * Exception class used to indicate a problem in Input/Output operations like opening a file in local storage
  * Contains message with brief description of an error
  */
-class IOException {
+class IOException final : public std::exception {
+    std::string message;
 
-    private:
-        
-        std::string message;
-        
-    public:
+public:
+    explicit IOException(const char *message);
 
-        IOException(const char * message);
+    [[nodiscard]] const char *what() const noexcept override {
+        return message.c_str();
+    }
 
-        std::string getMessage();
-
+    [[nodiscard]] std::string getMessage() const;
 };
 
 #endif
