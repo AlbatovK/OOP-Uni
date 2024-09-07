@@ -13,14 +13,11 @@
  * Concrete implementation of AbstractValidator used only for test purposes and during early development
  * Does not contain any business logic and can be considered an empty block
  */
-class TestValidator: public AbstractValidator<std::string> {
+class TestValidator final : public AbstractValidator<std::string> {
+public:
+    void validate(const std::string &entity) override;
 
-    public:
-
-        void validate(const std::string& entity) override;
-
-        ~TestValidator() {}
-
+    ~TestValidator() override = default;
 };
 
 #endif

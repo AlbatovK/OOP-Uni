@@ -12,13 +12,11 @@
  * \version 1.0
  * Concrete implementation of AbstractValidator used to validate serialized Car objects in TOML format before transforming
  */
-class CarTomlValidator: public AbstractValidator<std::string> {
+class CarTomlValidator final : public AbstractValidator<std::string> {
+public:
+    void validate(const std::string &entity) override;
 
-    public:
-
-        void validate(const std::string& entity) override;
-
-		~CarTomlValidator() {};
+    ~CarTomlValidator() override = default;
 };
 
 #endif
