@@ -40,6 +40,8 @@ public:
 
     /// Secondary constructor defaulting mileage to 0.0 miles
     Car(const std::string &brand, const std::string &owner);
+
+    [[nodiscard]] std::string toString() const;
 };
 
 #endif

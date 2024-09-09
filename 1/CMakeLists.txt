@@ -47,10 +47,15 @@ add_library(
         src/include/CarSerializer.hpp
 )
 
+
 add_executable(main main.cpp)
 
 add_executable(test test/test.cpp)
 
-target_link_libraries(test core gtest)
-
 target_link_libraries(main core)
+
+# SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+# SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+# SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage")
+
+target_link_libraries(test core gtest -lgcov -fprofile-arcs -ftest-coverage --coverage)
