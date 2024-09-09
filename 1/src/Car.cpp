@@ -34,3 +34,7 @@ Car::Car(const std::string &brand, const std::string &owner, const double &milea
 
 Car::Car(const std::string &brand, const std::string &owner): Car(brand, owner, 0.0) {
 }
+
+std::string Car::toString() const {
+    return "Car(brand=" + brand + ", owner=" + owner + ", mileage=" + std::to_string(mileage) + ")";
+}

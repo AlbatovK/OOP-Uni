@@ -64,7 +64,9 @@ std::string CarSerializer::serialize(const Car &input, const std::string &struct
     stringBuilder << "brand = " << "\"" << input.getBrand() << "\"" << "\n";
     stringBuilder << "owner = " << "\"" << input.getOwner() << "\"" << "\n";
     stringBuilder << "mileage = " << std::setprecision(5) << input.getMileage();
-    return stringBuilder.str();
+    auto res = stringBuilder.str();
+    this->validator->validate(res);
+    return res;
 }
 
 CarSerializer::CarSerializer() {
@@ -77,4 +79,5 @@ CarSerializer::CarSerializer(AbstractValidator<std::string> *validator) {
 
 CarSerializer::~CarSerializer() {
     delete this->validator;
+    this->validator = nullptr;
 }
