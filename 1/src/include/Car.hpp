@@ -18,29 +18,42 @@ class Car {
 
 public:
     /// Returns brand of a car
+    /// \return Car brand
     [[nodiscard]] std::string getBrand() const;
 
     /// Returns owner of a car
+    /// \return Car owner
     [[nodiscard]] std::string getOwner() const;
 
     /// Returns car mileage
+    /// \return Car mileage
     [[nodiscard]] double getMileage() const;
 
-    /// Sets car brand
+    /// Updates car brand
+    /// \param brand Car new brand
     void setBrand(const std::string &brand);
 
-    /// Sets car owner
+    /// Updates car owner
+    /// \param owner Car new owner
     void setOwner(const std::string &owner);
 
-    /// Sets car mileage
+    /// Updates car mileage
+    /// \param mileage Car new mileage
     void setMileage(const double &mileage);
 
     /// Full primary constructor
+    /// \param mileage Car's mileage
+    /// \param brand Car's brand
+    /// \param owner Car's owner
     Car(const std::string &brand, const std::string &owner, const double &mileage);
 
     /// Secondary constructor defaulting mileage to 0.0 miles
+    /// \param brand Car's brand
+    /// \param owner Car's owner
     Car(const std::string &brand, const std::string &owner);
 
+    /// Method that converts object into string representation convenient for output
+    /// \return String representation of an Car object
     [[nodiscard]] std::string toString() const;
 };
 
