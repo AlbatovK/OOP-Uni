@@ -1,0 +1,15 @@
+*.json
+*.exe
+*.o
+./latex
+./latex/
+./html/
+./html
+./idea
+./idea/
+./cmake-build-debug/
+./cmake-build-debug
+./cmake-build-wsl
+./cmake-build-wsl/
+./doc/html
+./doc/latex
