@@ -26,13 +26,10 @@ void CarTomlValidator::validate(const std::string &entity) {
     }
 
     std::smatch m;
-    const std::regex findBrandRegex("brand *= *\"[a-zA-Z -]+\"");
+    const std::regex findBrandRegex("brand *= *\"[a-zA-Z -]{1,16}+\"");
     if (!std::regex_search(entity, m, findBrandRegex)) {
-        throw ValidationException("Brand is only a-z, A-Z and ' ' + '-'.", "Brand");
-    }
-
-    if (m.empty() || m[0].length() > 8 + 16 + 2) {
-        throw ValidationException("Brand must be no longer than 16 chars.", "Brand");
+        throw ValidationException("Brand is only a-z, A-Z and ' ' + '-'. and not empty and no longer than 16 chars",
+                                  "Brand");
     }
 
     const std::regex findOwnerRegex("owner *= *\".+\"");
