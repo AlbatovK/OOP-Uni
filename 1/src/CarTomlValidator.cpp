@@ -1,27 +1,20 @@
 #include "CarTomlValidator.hpp"
 
+#include <iostream>
+
 #include "ValidationException.hpp"
 
 #include <string>
 
 #include <regex>
 
-void CarTomlValidator::validate(const std::string &entity) {
-    bool structureMatches = false;
-    std::ranges::sort(this->fields);
-    do {
-        std::stringstream ss;
-        ss << "\n*.+\n*"
-                << this->fields[0] << " *= *.+\n*"
-                << this->fields[1] << " *= *.+\n*"
-                << this->fields[2] << " *= *.+\n*";
-        if (const std::regex structureRegex(ss.str()); std::regex_match(entity.data(), structureRegex)) {
-            structureMatches = true;
-            break;
-        }
-    } while (std::ranges::next_permutation(this->fields).found);
 
-    if (!structureMatches) {
+void CarTomlValidator::validate(const std::string &entity) {
+    const std::regex findFieldRegex("[a-zA-Z]+ *= *.*\n");
+
+    std::ptrdiff_t const match_count(std::distance(
+        std::sregex_iterator(entity.begin(), entity.end(), findFieldRegex), std::sregex_iterator()));
+    if (match_count < 3) {
         throw ValidationException("Car Structure is incorrect.", "Car Structure");
     }
 
