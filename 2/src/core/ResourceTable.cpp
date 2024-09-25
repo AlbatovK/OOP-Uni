@@ -257,9 +257,10 @@ std::ostream &operator<<(std::ostream &output, const ResourceTable &table) {
 std::istream &operator>>(std::istream &in, ResourceTable &table) {
     int capacity;
     in >> capacity;
+    delete[] table.resources;
+    table.resourceCount = 0;
     table.setCapacity(capacity);
     table.resourceCount = capacity;
-    delete[] table.resources;
     table.resources = new Resource[capacity];
     std::for_each(
         table.resources,
