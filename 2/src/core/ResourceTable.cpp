@@ -51,17 +51,13 @@ ResourceTable::ResourceTable(const Resource *resources, const int &resourceCount
         return;
     }
 
-    for (int i = 0; i < this->resourceCount; i++) {
-        this->resources[i] = resources[i];
-    }
+    std::copy_n(resources, this->resourceCount, this->resources);
 }
 
 ResourceTable ResourceTable::operator*(const int &times) {
     if (times < 0) {
         throw InvalidStateException("Times cannot be negative.", "Times");
     }
-
-    std::ranges::for_each(*this, [&](Resource &resource) { resource = resource * times; });
 
     auto table = ResourceTable(this->resources, this->resourceCount, this->capacity);
     std::ranges::for_each(table, [&](Resource &resource) { resource = resource * times; });
@@ -161,9 +157,7 @@ Resource &ResourceTable::deleteFromTable(const std::string &name) {
 
     auto [res, index] = findResourceFromResourceTableByName(*this, name);
 
-    for (int i = index; i < this->resourceCount - 1; i++) {
-        this->resources[i] = this->resources[i + 1];
-    }
+    std::copy_n(this->resources + index + 1, this->resourceCount - index - 2, this->resources + index);
 
     this->resourceCount--;
 
@@ -187,12 +181,10 @@ ResourceTable &ResourceTable::operator=(ResourceTable &&other) noexcept {
 ResourceTable &ResourceTable::operator=(const ResourceTable &other) {
     if (this != &other) {
         delete[] this->resources;
-        this->resources = new Resource[this->resourceCount];
         this->resourceCount = other.resourceCount;
+        this->resources = new Resource[this->resourceCount];
         this->capacity = other.capacity;
-        for (int i = 0; i < this->resourceCount; i++) {
-            this->resources[i] = other.resources[i];
-        }
+        std::copy_n(other.resources, this->resourceCount, this->resources);
     }
 
     return *this;
@@ -213,13 +205,8 @@ ResourceTable &ResourceTable::operator+=(const Resource &res) {
 
     new_resources[index] = res;
 
-    for (long i = 0; i < index; i++) {
-        new_resources[i] = this->resources[i];
-    }
-
-    for (long i = index; i < this->resourceCount - 1; i++) {
-        new_resources[i + 1] = this->resources[i];
-    }
+    std::copy_n(this->resources, index, new_resources);
+    std::copy_n(this->resources + index, this->resourceCount - index - 1, new_resources + index + 1);
 
     delete[] this->resources;
     this->resources = new_resources;
