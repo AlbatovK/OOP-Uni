@@ -13,6 +13,8 @@ template<class T>
 class AbstractValidator {
 public:
     /// Validate object properties before data transforming and mapping
+    /// \param entity Generic type T entity that is being validated
+    /// \throws [ValidationException] if entity does not meet any of requirements
     virtual void validate(const T &entity) = 0;
 
     virtual ~AbstractValidator() = default;

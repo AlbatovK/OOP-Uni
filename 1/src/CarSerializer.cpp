@@ -8,7 +8,7 @@
 
 #include <iomanip>
 
-#include <iostream>
+#include <map>
 
 Car CarSerializer::deserialize(const char *input) {
     return this->deserialize(
@@ -16,45 +16,59 @@ Car CarSerializer::deserialize(const char *input) {
     );
 }
 
+void rtrim(std::string &s, const char *t = " \t\n") {
+    s.erase(s.find_last_not_of(t) + 1);
+}
+
+void ltrim(std::string &s, const char *t = " \t\n") {
+    s.erase(0, s.find_first_not_of(t));
+}
+
+void trim(std::string &s, const char *t = " \t\n") {
+    ltrim(s, t);
+    rtrim(s, t);
+}
+
+bool isStringBlank(const std::string &s) {
+    return std::all_of(s.begin(), s.end(), [](const unsigned char &c) {
+        return std::isspace(c) || c == ' ' || c == '\t' || c == '\r' || c == '\n';
+    });
+}
+
 Car CarSerializer::deserialize(const std::string &input) {
     this->validator->validate(input);
-    std::stringstream stringBuilder(input);
+    std::string trimmed(input);
+    trim(trimmed);
+
+    std::stringstream stringBuilder(trimmed);
     std::string token;
 
-    getline(stringBuilder, token, '\n');
-    getline(stringBuilder, token, '\n');
-
-    std::string brand;
-    std::stringstream brandBuilder(token);
-    getline(brandBuilder, brand, '=');
-    getline(brandBuilder, brand, '=');
-
-    brand = brand.substr(2, brand.size() - 3);
+    std::map<std::string, std::string> fieldData;
 
     getline(stringBuilder, token, '\n');
 
-    std::string owner;
-    std::stringstream ownerBuilder(token);
-    getline(ownerBuilder, owner, '=');
-    getline(ownerBuilder, owner, '=');
+    while (getline(stringBuilder, token, '\n')) {
+        if (!isStringBlank(token)) {
+            std::stringstream fieldBuilder(token);
 
-    owner = owner.substr(2, owner.size() - 3);
+            std::string field;
+            getline(fieldBuilder, field, '=');
+            trim(field);
 
-    getline(stringBuilder, token, '\n');
+            std::string fieldValue;
+            getline(fieldBuilder, fieldValue, '=');
+            trim(fieldValue);
 
-    std::string s_mileage;
-    std::stringstream mileageBuilder(token);
-    getline(mileageBuilder, s_mileage, '=');
-    getline(mileageBuilder, s_mileage, '=');
+            fieldData[field] = fieldValue;
+        }
+    }
 
-    double mileage = std::stod(s_mileage);
-
-    return {brand, owner, mileage};
+    return {fieldData["brand"], fieldData["owner"], std::stod(fieldData["mileage"])};
 }
 
 Car CarSerializer::deserialize(const char *input, const size_t &size) {
     return this->deserialize(
-        std::string(input, size + 1)
+        std::string(input, size)
     );
 }
 

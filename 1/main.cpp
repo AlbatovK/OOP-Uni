@@ -20,7 +20,7 @@ std::string readFile(const std::string &path) {
     std::ifstream inputFile(path);
 
     if (!inputFile.is_open()) {
-        throw IOException("File could not be opened.");
+        throw IOException("File could not be opened or doesn't exist.");
     }
 
     std::string res;
@@ -42,7 +42,7 @@ void writeToFile(const std::string &path, const std::string &content) {
 
     outputFile << content << std::endl;
 
-    if (outputFile.bad() || outputFile.fail()) {
+    if (outputFile.fail()) {
         outputFile.close();
         throw IOException("File could not be written.");
     }

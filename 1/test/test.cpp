@@ -8,6 +8,8 @@
 
 #include "CarSerializer.hpp"
 
+#include <algorithm>
+
 TEST(ModelTests, shouldGetSetWork) {
     Car car("brand", "owner", 10.0);
     ASSERT_EQ(car.getBrand(), "brand");
@@ -82,6 +84,28 @@ TEST(SerializerTests, testCarSerializerSerializerToml) {
     const Car car("Brand", "Owner", 10.2);
     const std::string s = c.serialize(car, "new");
     ASSERT_EQ(s, "[new]\nbrand = \"Brand\"\nowner = \"Owner\"\nmileage = 10.2");
+}
+
+TEST(SerializerTests, testCarSerializerSerializerOverridesEquals) {
+    CarSerializer c(new TestValidator());
+    const Car car("Brand", "Owner", 10.2);
+    const std::string s = c.serialize(car, "new");
+    ASSERT_EQ(s, "[new]\nbrand = \"Brand\"\nowner = \"Owner\"\nmileage = 10.2");
+
+    auto arr = new char[s.size()];
+    std::ranges::transform(s, arr, [](const char ch) { return ch; });
+
+    Car c1 = c.deserialize(s);
+    Car c2 = c.deserialize(s.c_str());
+    Car c3 = c.deserialize(arr, s.size());
+
+    ASSERT_EQ(c1.getBrand(), c2.getBrand());
+    ASSERT_EQ(c1.getOwner(), c2.getOwner());
+    ASSERT_DOUBLE_EQ(c1.getMileage(), c2.getMileage());
+    ASSERT_EQ(c2.getBrand(), c3.getBrand());
+    ASSERT_EQ(c2.getOwner(), c3.getOwner());
+    ASSERT_DOUBLE_EQ(c2.getMileage(), c3.getMileage());
+    delete[] arr;
 }
 
 
